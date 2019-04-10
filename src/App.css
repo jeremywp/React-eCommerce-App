@@ -1,0 +1,10 @@
+.product-img {
+    max-height: 170px;
+
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

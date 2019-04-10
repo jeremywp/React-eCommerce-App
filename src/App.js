@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import axios from "axios";
 import { createStore } from "redux";
+import { Rating } from 'semantic-ui-react'
 
+import './App.css'
 import SearchBar from './SearchBar'
-import SearchResults from './SearchResults'
+
 
 const initialState = {
   products: [],
@@ -62,12 +64,21 @@ class App extends Component {
         <SearchBar
           onSubmit={this.onSearchSubmit}
         />
-        <ul>
+        <div className="cards ui">
           {this.state.searchRes.map(product =>
-            <li key={product.id}>
-              {product.title}
-            </li>)}
-        </ul>
+            <div className="ui card" key={product.id}>
+              <div className="ui content">
+                <div className="ui header">{product.title}</div>
+                <div className="ui image">
+                  <img className="product-img" src={product.img} alt={product.description}/>
+                </div>
+              </div>
+              <div className="ui extra row">
+                <span>{product.price}</span>
+                <Rating rating={Math.round(product.rating)} maxRating={5} />
+              </div>
+            </div>)}
+        </div>
       </div>
     )
   }
