@@ -1,31 +1,12 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import axios from "axios";
-import { createStore } from "redux";
 import { Rating } from 'semantic-ui-react'
+import store from './store'
 
 import './App.css'
 import SearchBar from './SearchBar'
+import ProductList from "./ProductList";
 
-
-const initialState = {
-  products: [],
-  searchRes: []
-};
-
-let searchReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case ('SEARCH'): {
-      return Object.assign({}, state, {
-        searchResults: action.search
-      })
-    }
-    default:
-      return state
-  }
-};
-
-const store = createStore(searchReducer);
 
 class App extends Component {
   state = {
@@ -35,13 +16,7 @@ class App extends Component {
 
 
   componentDidMount() {
-    axios.get('https://my-json-server.typicode.com/tdmichaelis/typicode/products')
-      .then(res => {
-        this.setState({
-          products: res.data,
-          searchRes: res.data
-        })
-      })
+        console.log(store.getState().products)
   }
 
   onSearchSubmit = (q) => {
@@ -64,6 +39,7 @@ class App extends Component {
         <SearchBar
           onSubmit={this.onSearchSubmit}
         />
+        <ProductList/>
         <div className="cards ui">
           {this.state.searchRes.map(product =>
             <div className="ui card" key={product.id}>
