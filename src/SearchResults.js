@@ -1,21 +1,19 @@
 import React, {Component} from 'react'
-
-import SearchBar from "./SearchBar";
+import { searchProducts } from "./searchActions";
 
 let searchResult = [];
 
 class SearchResults extends Component {
-
-/*  componentDidMount() {
-    searchResult = this.props.state.searchRes;
-  }*/
+  componentDidMount() {
+    this.props.dispatch(searchProducts());
+  }
 
   render() {
+    const {error, loading, products, searchRes} = this.props;
+
     return(
       <div>
-        <SearchBar
-          onSubmit={this.onSearchSubmit}
-        />
+
         <ul>
           {searchResult.map(product =>
             <li key={product.id}>
@@ -27,5 +25,11 @@ class SearchResults extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  products: state.products.items,
+  searchRes: state.products.items,
+  loading: state.products.loading,
+  error: state.products.error
+});
 
-export default SearchResults
+export default connect(mapStateToProps)(SearchResults);

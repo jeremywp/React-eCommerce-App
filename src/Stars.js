@@ -4,7 +4,9 @@ class Stars extends Component {
 
   render (){
     return (
-      <div className="ui star rating" maxRating="5"></div>
+      <div className="ui star rating" maxRating="10">
+
+      </div>
     )
   }
 }
