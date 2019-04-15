@@ -1,26 +1,55 @@
 import React, { Component } from 'react';
 import {Rating} from "semantic-ui-react";
+import {connect} from "react-redux";
+import store from './store';
+
+import './ProductDetails.css';
 
 class ProductDetails extends Component {
 
+  componentDidMount() {
+
+  }
+
   render() {
-    return (
-      <div className="ui card" key={product.id}>
-        <div className="ui content">
-          <div className="ui header">{product.title}</div>
-          <div className="ui image">
-            <img className="product-img" src={product.img} alt={product.description}/>
-          </div>
-        </div>
+    console.log(store.getState());
+    if (store.getState().products.items === []){
+      return (
         <div>
-          {product.description}
+          404
         </div>
-        <div className="ui extra row">
-          <span>{product.price}</span>
-          <Rating rating={Math.round(product.rating)} maxRating={5} />
+      )
+    }
+    else if (store.getState().products.items !== []) {
+      const selectedProduct = store.getState().products.items[this.props.match.params.productId - 1];
+      return (
+        <div className="ui container" key={selectedProduct.id}>
+          <div className="ui content">
+            <div className="ui row">
+              <div className="ui header">{selectedProduct.title}</div>
+              <button className="ui button primary">Add to Cart</button>
+            </div>
+            <div className="ui extra row">
+              <span>{selectedProduct.price}</span>
+              <Rating rating={Math.round(selectedProduct.rating)} maxRating={5}/>
+            </div>
+            <div className="ui item centered">
+              <img className="selectedProduct-img" src={selectedProduct.img} alt={selectedProduct.description}/>
+            </div>
+          </div>
+          <div>
+            {selectedProduct.description}
+          </div>
+
         </div>
-      </div>
-    )
+      )
+    }
   }
 
 }
+
+const mapStateToProps = state => ({
+  selectedProduct: state.products.selectedProduct
+});
+
+export default connect(mapStateToProps)(ProductDetails);

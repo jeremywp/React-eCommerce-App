@@ -11,6 +11,7 @@ import {
 import Cart from './Cart'
 import './App.css'
 import ProductList from "./ProductList";
+import ProductDetails from "./ProductDetails"
 
 
 class App extends Component {
@@ -27,12 +28,13 @@ class App extends Component {
             Products
           </Link>
           <Link to="/Cart" className="item">
-            Cart
+            Cart {/*{`(${store.getState().cart.length+1})`}*/}
           </Link>
         </div>
         <Switch>
           <Route exact path="/products" component={ProductList}/>
           <Route path="/cart" component={Cart}/>
+          <Route path="/products/:productId" component={ProductDetails}/>
           <Redirect from="/" to="/products"/>
         </Switch>
       </Router>

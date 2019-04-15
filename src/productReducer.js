@@ -23,7 +23,8 @@ export default function productReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        items: action.payload.products
+        items: action.payload.products,
+        cart: []
     };
 
     case FETCH_PRODUCTS_FAILURE:
@@ -31,7 +32,8 @@ export default function productReducer(state = initialState, action) {
         ...state,
         loading: false,
         error: action.payload.error,
-        items: []
+        items: [],
+        cart: []
       };
 
     default:

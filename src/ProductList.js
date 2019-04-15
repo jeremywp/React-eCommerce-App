@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { fetchProducts } from './productActions';
 import {Rating} from "semantic-ui-react";
 import SearchBar from './SearchBar'
+import {
+  Link
+} from "react-router-dom";
 
 class ProductList extends Component {
   componentDidMount() {
@@ -10,7 +13,7 @@ class ProductList extends Component {
   }
 
   render(){
-    const {error, loading, products, searchRes} = this.props;
+    const {error, loading, products, searchRes, searchTerm} = this.props;
 
     if (error) {
       return <div>Error! {error.message}</div>
@@ -21,38 +24,43 @@ class ProductList extends Component {
     }
 
 
-    if (this.props.searchRes.length === 0) {
+    if (searchTerm === '') {
       return (
         <div>
           <SearchBar onSubmit={this.forceUpdate}/>
           <div className="cards ui">
             {products.map(product =>
-              <div className="ui card" key={product.id}>
+              <Link to={`/products/${product.id}`} className="ui card" key={product.id}>
                 <div className="ui content">
                   <div className="ui header">{product.title}</div>
-                  <div className="ui image">
-                    <img className="product-img" src={product.img} alt={product.description}/>
+                  <div className="ui item centered">
+                    <img className="product-img ui image" src={product.img} alt={product.description}/>
                   </div>
                 </div>
                 <div className="ui extra row">
                   <span>{product.price}</span>
                   <Rating rating={Math.round(product.rating)} maxRating={5}/>
                 </div>
-              </div>)}
+              </Link>)}
           </div>
         </div>
       );
     }
-    else if (this.props.searchRes.length > 0) {
+    else if (searchTerm !== '') {
       return (
         <div>
-          <SearchBar onSubmit={this.update}/>
+          <div>
+          <SearchBar onSubmit={this.forceUpdate}/>
+          <span>
+            Filter: '{searchTerm}'
+          </span>
+          </div>
           <div className="cards ui">
-            {this.props.searchRes.map(product =>
-              <div className="ui card" key={product.id}>
+            {searchRes.map(product =>
+              <Link to={`/products/${product.id}`} className="ui card" key={product.id}>
                 <div className="ui content">
                   <div className="ui header">{product.title}</div>
-                  <div className="ui image">
+                  <div className="ui item centered">
                     <img className="product-img" src={product.img} alt={product.description}/>
                   </div>
                 </div>
@@ -60,7 +68,7 @@ class ProductList extends Component {
                   <span>{product.price}</span>
                   <Rating rating={Math.round(product.rating)} maxRating={5}/>
                 </div>
-              </div>)}
+              </Link>)}
           </div>
         </div>
       );
@@ -71,6 +79,7 @@ class ProductList extends Component {
 const mapStateToProps = state => ({
   products: state.products.items,
   searchRes: state.search.searchRes,
+  searchTerm: state.search.searchTerm,
   loading: state.products.loading,
   error: state.products.error
 });
