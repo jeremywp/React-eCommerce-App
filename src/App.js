@@ -28,7 +28,10 @@ class App extends Component {
             Products
           </Link>
           <Link to="/Cart" className="item">
-            Cart {/*{`(${store.getState().cart.length+1})`}*/}
+            Cart
+            <i className="right cart icon">
+
+            </i>
           </Link>
         </div>
         <Switch>

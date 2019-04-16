@@ -7,12 +7,24 @@ import './ProductDetails.css';
 
 class ProductDetails extends Component {
 
-  componentDidMount() {
+  storeProducts = store.getState().products.items;
 
+  componentDidMount() {
   }
 
+  addToCart = () => {
+    let productId = this.props.match.params.productId;
+    for (let p in this.storeProducts) {
+      if (this.storeProducts[p].id === Number(productId)) {
+        store.dispatch({
+          type: 'ADD_TO_CART',
+          product: this.storeProducts[p],
+        });
+      }
+    }
+  };
+
   render() {
-    console.log(store.getState());
     if (store.getState().products.items === []){
       return (
         <div>
@@ -27,7 +39,7 @@ class ProductDetails extends Component {
           <div className="ui content">
             <div className="ui row">
               <div className="ui header">{selectedProduct.title}</div>
-              <button className="ui button primary">Add to Cart</button>
+              <button className="ui button primary" onClick={this.addToCart}>Add to Cart</button>
             </div>
             <div className="ui extra row">
               <span>{selectedProduct.price}</span>

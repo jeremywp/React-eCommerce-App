@@ -13,3 +13,26 @@
     flex-direction: row;
     justify-content: space-between;
 }
+
+.cart-img {
+    max-height: 80px;
+}
+
+.cart-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.checkout {
+    display: flex;
+    flex-direction: column;
+}
+
+.checkout-btn {
+    display: flex;
+    flex-direction: row;
+    width: 150px;
+}
